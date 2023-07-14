@@ -1,5 +1,9 @@
 {
-  "name": "vite-template-solid",
+  "name": "flexsite",
+  "author": {
+    "email": "neil.cantorne@protonmail.com",
+    "name": "neilcantorne"
+  },
   "version": "0.0.0",
   "description": "",
   "scripts": {
