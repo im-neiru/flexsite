@@ -1,10 +1,8 @@
 import type { Component } from "solid-js";
-
-import logo from "./logo.svg";
-import styles from "./App.module.css";
+import { Home } from "./pages";
 
 const App: Component = () => {
-  return <></>;
+  return <Home></Home>;
 };
 
 export default App;
