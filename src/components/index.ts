@@ -1,0 +1,1 @@
+export { HyperBackground } from "./HyperBackground";
