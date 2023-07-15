@@ -26,18 +26,33 @@ export function HyperBackground() {
   let frameId: number | undefined;
   let [mousePosition, setMousePosition] = createSignal({ x: 0, y: 0 });
 
+  let camera = new PerspectiveCamera(
+    75,
+    window.innerWidth / window.innerHeight,
+    0.1,
+    1000
+  );
+
   onMount(() => {
     if (surface !== undefined) {
       let renderer = new WebGLRenderer({
         canvas: surface as HTMLCanvasElement
       });
 
-      const updateSize = () =>
-        renderer.setSize(window.innerWidth, window.innerHeight);
+      const updateSize = () => {
+        camera = new PerspectiveCamera(
+          75,
+          window.innerWidth / window.innerHeight,
+          0.1,
+          1000
+        );
 
-      window.onresize = () => {
-        updateSize();
+        camera.position.z = 5;
+
+        renderer.setSize(window.innerWidth, window.innerHeight);
       };
+
+      window.addEventListener("resize", updateSize);
 
       updateSize();
 
@@ -52,13 +67,6 @@ export function HyperBackground() {
       }
     });
   });
-
-  let camera = new PerspectiveCamera(
-    75,
-    window.innerWidth / window.innerHeight,
-    0.1,
-    1000
-  );
 
   camera.position.z = 5;
 
