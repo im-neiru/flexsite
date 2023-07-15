@@ -1,0 +1,38 @@
+div.navigation-bar {
+  list-style-type: none;
+  width: 100%;
+  text-align: right;
+}
+
+div.navigation-bar > ul {
+  margin: 20px;
+  padding: 0;
+  font-size: larger;
+}
+
+div.navigation-bar > ul > li {
+  display: inline-block;
+}
+
+div.navigation-bar > ul > li img.icon {
+  display: inline-block;
+  margin: auto;
+  height: 20px;
+  vertical-align: middle;
+}
+
+div.navigation-bar > ul > li > .nav-active > span {
+  font-weight: bolder;
+  text-decoration: none;
+  margin-left: 8px;
+  margin-right: 12px;
+  color: #f2f2f2;
+}
+
+div.navigation-bar > ul > li > .nav-inactive > span {
+  display: inline-block;
+  text-decoration: none;
+  margin-left: 8px;
+  margin-right: 12px;
+  color: #f2f2f2;
+}
