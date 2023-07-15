@@ -1,0 +1,15 @@
+h2 {
+  display: inline-block;
+}
+
+div.typingtext > h2.carret {
+  display: inline-block;
+  animation: carret-blink-animation 500ms steps(5, start) infinite;
+  -webkit-animation: carret-blink-animation 500ms steps(5, start) infinite;
+}
+
+@keyframes carret-blink-animation {
+  to {
+    visibility: hidden;
+  }
+}
