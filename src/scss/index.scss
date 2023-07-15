@@ -1,7 +1,12 @@
+@font-face {
+  font-family: "Mono Light";
+  src: url("../assets/mono-light.ttf");
+}
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Ubuntu", "Segoe UI", "Roboto",
-    "Oxygen", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+  font-family: -apple-system, BlinkMacSystemFont, "Mono Light", "Segoe UI",
+    "Roboto", "Oxygen", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
