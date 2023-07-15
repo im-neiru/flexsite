@@ -1,4 +1,4 @@
-import { onCleanup, onMount } from "solid-js";
+import { createSignal, onCleanup, onMount } from "solid-js";
 import "../scss/background.scss";
 import {
   AmbientLight,
@@ -9,7 +9,12 @@ import {
   PerspectiveCamera,
   Scene,
   WebGLRenderer,
-  PCFSoftShadowMap
+  PCFSoftShadowMap,
+  PointsMaterial,
+  Points,
+  TorusGeometry,
+  SphereGeometry,
+  IcosahedronGeometry
 } from "three";
 
 export function HyperBackground() {
@@ -19,20 +24,25 @@ export function HyperBackground() {
     | undefined;
 
   let frameId: number | undefined;
+  let [mousePosition, setMousePosition] = createSignal({ x: 0, y: 0 });
 
   onMount(() => {
     if (surface !== undefined) {
       let renderer = new WebGLRenderer({
         canvas: surface as HTMLCanvasElement
       });
-      renderer.setSize(
-        (surface as HTMLCanvasElement).clientWidth,
-        (surface as HTMLCanvasElement).clientHeight
-      );
+
+      const updateSize = () =>
+        renderer.setSize(window.innerWidth, window.innerHeight);
+
+      window.onresize = () => {
+        updateSize();
+      };
+
+      updateSize();
 
       renderer.shadowMap.enabled = true;
       renderer.shadowMap.type = PCFSoftShadowMap;
-
       handleRender(renderer);
     }
 
@@ -53,29 +63,57 @@ export function HyperBackground() {
   camera.position.z = 5;
 
   let scene = new Scene();
-  const geometry = new BoxGeometry(2, 2, 2);
-  const material = new MeshStandardMaterial({ color: 0xff0000 });
-  let cube = new Mesh(geometry, material);
+  const geometrySphere = new IcosahedronGeometry(2, 6);
+  const geometryTorus = new TorusGeometry(4, 0.6, 16, 48);
+  const material = new PointsMaterial({
+    color: 0xe5e5e5,
+    size: 0.015,
+    sizeAttenuation: true,
+    fog: true
+  });
+  let sphere = new Points(geometrySphere, material);
+  let torus = new Points(geometryTorus, material);
 
-  const light = new DirectionalLight(0xffffff, 1);
-  const ambient = new AmbientLight(0x101010);
+  const light = new DirectionalLight(0x00ffff, 1);
+  const ambient = new AmbientLight(0x2020c0);
   light.position.set(0, 1, 0);
   light.castShadow = true;
 
   scene.add(light);
   scene.add(ambient);
-  scene.add(cube);
+  scene.add(sphere);
+  scene.add(torus);
 
   const handleRender = (renderer: WebGLRenderer) => {
     function animate() {
       frameId = requestAnimationFrame(animate);
-      cube.rotation.x += 0.01;
-      cube.rotation.y += 0.02;
-      cube.visible = true;
+      let rx =
+        ((mousePosition().x - window.innerWidth / 2) / window.innerWidth) *
+        0.02;
+      let ry =
+        ((mousePosition().y - window.innerHeight / 2) / window.innerHeight) *
+        0.02;
+
+      sphere.rotation.x += rx;
+      sphere.rotation.y -= ry;
+      sphere.rotation.z += 0.02;
+
+      torus.rotation.x += rx;
+      torus.rotation.y -= ry;
+      torus.rotation.z += 0.03;
+
+      sphere.visible = true;
 
       renderer.render(scene, camera);
     }
     animate();
+  };
+
+  window.onmousemove = (event) => {
+    setMousePosition({
+      x: event.clientX,
+      y: event.clientY
+    });
   };
 
   return <canvas ref={surface} class="hyper-background" />;
